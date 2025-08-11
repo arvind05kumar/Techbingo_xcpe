@@ -189,12 +189,14 @@ function App() {
           minHeight: '100vh',
           backgroundImage: 'url(/background.jpg)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
         }}
         className="py-12"
       >
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Thank You for Playing!</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            {gameState.timeLeft <= 0 ? "Time's Up!!!" : "Thank You for Playing!"}
+          </h1>
           <p className="text-xl mb-6">Your Final Score: {gameState.score}</p>
           <p className="text-lg">Your response has been recorded.</p>
         </div>
@@ -208,18 +210,20 @@ function App() {
         minHeight: '100vh',
         backgroundImage: 'url(/background.jpg)',
         backgroundSize: 'cover',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
       }}
       className="py-8 px-4"
     >
-      <div className="max-w-4xl mx-auto bg-white/90 rounded-2xl shadow-xl p-8">
-        <div className="flex justify-between items-center mb-8">
+      <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <Brain className="w-8 h-8" />
-            <h1 className="text-3xl font-bold">TECH-BINGOO</h1>
+            <Brain className="w-8 h-8" style={{ color: '#052F3A' }} />
+            <h1 className="text-3xl font-bold" style={{ color: '#052F3A' }}>
+              TECH-BINGOO
+            </h1>
           </div>
-          <div className="flex gap-4 items-center">
-            <p className="text-lg font-medium">Player: {playerName}</p>
+          <div className="flex items-center gap-4">
+            <p className="text-lg font-medium text-gray-700">Player: {playerName}</p>
             <Timer
               timeLeft={gameState.timeLeft}
               setTimeLeft={(time) => setGameState(prev => ({ ...prev, timeLeft: time }))}
@@ -251,19 +255,38 @@ function App() {
         </div>
 
         <form onSubmit={handleAnswerSubmit} className="space-y-4">
-          <input
-            type="text"
-            value={currentAnswer}
-            onChange={(e) => setCurrentAnswer(e.target.value)}
-            placeholder="Type your answer"
-            disabled={selectedCell === null || gameState.gameOver || gameState.submitted}
-            className="border rounded-lg p-2 w-full"
-          />
+          <div>
+            <label htmlFor="answer" className="block text-sm font-medium text-gray-700">
+              Your Answer
+            </label>
+            <input
+              type="text"
+              id="answer"
+              value={currentAnswer}
+              onChange={(e) => setCurrentAnswer(e.target.value)}
+              className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="Type your answer here..."
+              disabled={selectedCell === null || gameState.gameOver || gameState.submitted}
+            />
+          </div>
           <div className="flex gap-4">
-            <button type="submit" disabled={selectedCell === null || gameState.gameOver || gameState.submitted}>
+            <button
+              type="submit"
+              disabled={selectedCell === null || gameState.gameOver || gameState.submitted}
+              className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-4 rounded-lg 
+                hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 
+                disabled:cursor-not-allowed transition-all duration-200 font-medium"
+            >
               Submit Answer
             </button>
-            <button type="button" onClick={handleGameSubmit} disabled={gameState.gameOver || gameState.submitted}>
+            <button
+              type="button"
+              onClick={handleGameSubmit}
+              disabled={gameState.gameOver || gameState.submitted}
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 px-4 rounded-lg 
+                hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-400 
+                disabled:cursor-not-allowed transition-all duration-200 font-medium"
+            >
               Submit Game
             </button>
           </div>
